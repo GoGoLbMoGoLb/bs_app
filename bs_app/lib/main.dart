@@ -11,16 +11,26 @@
 
 import 'package:flutter/material.dart';
 
+import 'pages/historyPage.dart';
+import 'pages/homePage.dart';
+import 'pages/morePage.dart';
+import 'pages/playPage.dart';
+
 void main() => runApp(MyApp());
 
 /// This Widget is the main application widget.
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   static const String _title = 'Beep System';
 
   @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
+      title: MyApp._title,
       home: MyStatefulWidget(),
 
     );
@@ -40,27 +50,33 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
-      'Index 0: Home',
+      'Home',
+      style: optionStyle,
+    ),
+    /*Text(
+      'Settings',
+      style: optionStyle,
+    ),*/
+    Text(
+      'History',
       style: optionStyle,
     ),
     Text(
-      'Index 1: Settings',
+      'Play',
       style: optionStyle,
     ),
     Text(
-      'Index 2: History',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Play',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 4: MOre',
+      'MOre',
       style: optionStyle,
     ),
   ];
-
+  final _pageOptions =[
+    HomePage(),
+    //SettingsPage(),
+    HistoryPage(),
+    PlayPage(),
+    MorePage(),
+  ];
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -76,21 +92,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         title: _widgetOptions.elementAt(_selectedIndex),
         backgroundColor: colorBar,
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: _pageOptions[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: color,
-        items: <BottomNavigationBarItem>[
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             title: Text('Home'),
           ),
-          BottomNavigationBarItem(
+          /*BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             title: Text('Settings'),
-          ),
+          ),*/
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
             title: Text('History'),
@@ -105,8 +119,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
         ],
         currentIndex: _selectedIndex,
-
-
         unselectedItemColor: Colors.black87,
         selectedItemColor: Colors.white70,
         unselectedFontSize: 11.0,
